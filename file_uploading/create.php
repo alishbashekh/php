@@ -1,33 +1,34 @@
 <?php
- 
+include ('connection.php');
 if(isset($_POST['submit'])){
-    $name=$_POST['stud-name'];
-    $email=$_POST['stud-email'];
-    $phone=$_POST['stud-phone'];
-    $image=$_FILES['stud-image']['name'];
-
-    $sql="INSERT INTO students (student name, student email, student phone, student image) VALUES()"
-
-
-
-} 
+   $name=$_POST['stud-name'];
+   $email=$_POST['stud-email'];
+   $phone=$_POST['stud-phone'];
+   $image=$_FILES['stud-image']['name'];
+   $tmp_dir=$_FILES['stud-image']['tmp_name'];
+   $current_dir='uploads/'.time()."_".$image;
 
 
+      if(!file_exists('uploads')){
+         mkdir("uploads",0777,true);
+      }
+      if(move_uploaded_file($tmp_dir,$current_dir)){
+         $sql="INSERT INTO `students`(`student name`, `student email`, `student phone`, `student image`) VALUES ('$name','$email','$phone','$current_dir')";
+        
+         $query=mysqli_query($con,$sql);
+         if($query){
+            echo "data inserted succesfully";
+         }
+         else{
+            echo "not";
+         }
+      }
+   
+
+}
 
 
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -49,7 +50,7 @@ if(isset($_POST['submit'])){
                  <h4>php image uploading form</h4>
                 </div>
                 <div class="card-body">
-                 <form action="create.php" method="POST" enctype="multipart/form-data">
+                 <form action="create.php" method="post" enctype="multipart/form-data">
                  <div class="form-group mt-3">
                     <label for="">student name</label>
                     <input type="text" name="stud-name" class="form-control" placeholder="enter name here">
