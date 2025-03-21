@@ -37,13 +37,14 @@ include("connection.php");
         $image=$row['student image'];
 
 
-       echo"<tr>
+       echo'<tr>
         <td>'.$id.'</td>
         <td>'.$name.'</td>
         <td>'.$email.'</td>
         <td>'.$phone.'</td>
         <td>'<img src='.$image. />'</td>
-      </tr>";
+        <button class="btn btn-danger"><a href="delete.php?deleteid='.$id.'" class="text-white">delete</a></button>
+      </tr>';
        
     }
   
